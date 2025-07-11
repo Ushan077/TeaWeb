@@ -25,7 +25,7 @@
 
 <!-- Add Tea Form -->
 <h2>Add New Tea</h2>
-<form action="<%= request.getContextPath() %>/TeaServlet" method="post">
+<form action="<%= request.getContextPath() %>/TeaServlet" method="post" enctype="multipart/form-data">
     <input type="hidden" name="action" value="add" />
     Name: <input type="text" name="name" required /><br/>
     Region: <input type="text" name="region" /><br/>
@@ -34,7 +34,9 @@
     Strength: <input type="text" name="strength" /><br/>
     Price: <input type="text" name="price" required /><br/>
     Quantity: <input type="number" name="quantity" /><br/>
-    Image: <input type="file" name="image" accept="image/*" /><br/>
+     Image: <input type="file" name="image" accept="image/*" /><br/>
+    Seller: <input type="text" name="seller" required /><br/>
+
     <input type="submit" value="Add Tea" />
 </form>
 
@@ -53,6 +55,7 @@
         <th>Price</th>
         <th>Quantity</th>
         <th>Image</th>
+        <th>Seller</th>
         <th>Created At</th>
         <th>Actions</th>
     </tr>
@@ -71,6 +74,7 @@
             <td><input type="text" name="price" value="<%= tea.getPrice() %>" /></td>
             <td><input type="number" name="quantity" value="<%= tea.getQuantity() %>" /></td>
             <td><input type="text" name="image_url" value="<%= tea.getImageUrl() %>" /></td>
+            <td><input type="text" name="seller" value="<%= tea.getSeller() %>" /></td>    
             <td><%= tea.getCreatedAt() %></td>
             <td>
                 <input type="hidden" name="action" value="update" />

@@ -10,8 +10,8 @@ import java.math.BigDecimal;
 public class TeaDAO {
 
     public void addTea(Tea tea) {
-        String sql = "INSERT INTO tea (name, region, grade, weight, strength, price, quantity, image_url) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tea (name, region, grade, weight, strength, price, quantity, image_url,seller) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -24,6 +24,9 @@ public class TeaDAO {
             stmt.setBigDecimal(6, tea.getPrice());
             stmt.setInt(7, tea.getQuantity());
             stmt.setString(8, tea.getImageUrl());
+            stmt.setString(9, tea.getSeller());
+
+
 
             stmt.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
@@ -50,6 +53,7 @@ public class TeaDAO {
                 tea.setPrice(rs.getBigDecimal("price"));
                 tea.setQuantity(rs.getInt("quantity"));
                 tea.setImageUrl(rs.getString("image_url"));
+                tea.setSeller(rs.getString("seller"));  
                 tea.setCreatedAt(rs.getTimestamp("created_at"));
                 list.add(tea);
             }
@@ -82,6 +86,7 @@ public class TeaDAO {
                 tea.setPrice(rs.getBigDecimal("price"));
                 tea.setQuantity(rs.getInt("quantity"));
                 tea.setImageUrl(rs.getString("image_url"));
+                tea.setSeller(rs.getString("seller")); 
                 tea.setCreatedAt(rs.getTimestamp("created_at"));
             }
 
@@ -93,20 +98,22 @@ public class TeaDAO {
     }
 
     public void updateTea(Tea tea) {
-        String sql = "UPDATE tea SET name=?, region=?, grade=?, weight=?, strength=?, price=?, quantity=?, image_url=? WHERE id=?";
+    	String sql = "UPDATE tea SET name=?, region=?, grade=?, weight=?, strength=?, price=?, quantity=?, image_url=?, seller=? WHERE id=?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, tea.getName());
-            stmt.setString(2, tea.getRegion());
-            stmt.setString(3, tea.getGrade());
-            stmt.setBigDecimal(4, tea.getWeight());
-            stmt.setString(5, tea.getStrength());
-            stmt.setBigDecimal(6, tea.getPrice());
-            stmt.setInt(7, tea.getQuantity());
-            stmt.setString(8, tea.getImageUrl());
-            stmt.setInt(9, tea.getId());
+        	stmt.setString(1, tea.getName());
+        	stmt.setString(2, tea.getRegion());
+        	stmt.setString(3, tea.getGrade());
+        	stmt.setBigDecimal(4, tea.getWeight());
+        	stmt.setString(5, tea.getStrength());
+        	stmt.setBigDecimal(6, tea.getPrice());
+        	stmt.setInt(7, tea.getQuantity());
+        	stmt.setString(8, tea.getImageUrl());
+        	stmt.setString(9, tea.getSeller());
+        	stmt.setInt(10, tea.getId()); // ✅ Corrected index
+
 
             stmt.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {

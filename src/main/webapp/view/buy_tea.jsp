@@ -1,37 +1,65 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ page import="java.util.*, com.datapackage.model.Tea" %>
+
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>Tea Products</title>
-</head>
+<head><title>Tea List</title></head>
 <body>
+<%
+    String username = (String) session.getAttribute("username");
+    if (username == null) {
+        response.sendRedirect("view/login.jsp"); 
+        return;
+    }
+%>
+	<p>Welcome, <strong><%= username %></strong>!</p>
+	
     <h2>Available Tea Products</h2>
+    <table border="1">
+        <tr>
+            <th>Name</th><th>Region</th><th>Grade</th><th>Weight (g)</th>
+            <th>Strength</th><th>Price ($)</th><th>Qty</th><th>Image</th><th>Created At</th><th>Seller</th>
+        </tr>
+       <%
+List<Tea> teas = (List<Tea>) request.getAttribute("teaList");
+if (teas != null) {
+    for (Tea tea : teas) {
+%>
+ <tr>
+    <td><%= tea.getName() %></td>
+    <td><%= tea.getRegion() %></td>
+    <td><%= tea.getGrade() %></td>
+    <td><%= tea.getWeight() %></td>
+    <td><%= tea.getStrength() %></td>
+    <td><%= tea.getPrice() %></td>
+    <td><%= tea.getQuantity() %></td>
+    
+    <td>
+        <% if (tea.getImageUrl() != null) { %>
+            <img src="<%= tea.getImageUrl() %>" alt="Tea Image" width="60" height="60"/>
+        <% } else { %>
+            No Image
+        <% } %>
+    </td>
+    <td><%= tea.getCreatedAt() %></td>
+    <td><%= tea.getSeller() %></td>
+    <td>
+        <form action="${pageContext.request.contextPath}/cart" method="post">
+            <input type="hidden" name="teaId" value="<%= tea.getId() %>"/>
+            <input type="number" name="quantity" value="1" min="1" style="width:50px;"/>
+            <button type="submit">Add to Cart</button>
+        </form>
+    </td>
+</tr>
 
-    <!-- Example static products (no backend, no styles) -->
-    <h3>Green Tea</h3>
-    <p>Price: $10 per pack</p>
-    <p>Origin: Sri Lanka</p>
-    <a href="tea_details.jsp?name=Green%20Tea&price=10&origin=Sri%20Lanka" target="_blank">
-        <button>Add to Cart</button>
-    </a>
-    <hr>
+<%
+    }
+} else {
+%>
+    <tr><td colspan="9">No Tea Products Available.</td></tr>
+<%
+}
+%>
 
-    <h3>Black Tea</h3>
-    <p>Price: $8 per pack</p>
-    <p>Origin: India</p>
-    <a href="tea_details.jsp?name=Black%20Tea&price=8&origin=India" target="_blank">
-        <button>Add to Cart</button>
-    </a>
-    <hr>
-
-    <h3>Herbal Tea</h3>
-    <p>Price: $12 per pack</p>
-    <p>Origin: China</p>
-    <a href="tea_details.jsp?name=Herbal%20Tea&price=12&origin=China" target="_blank">
-        <button>Add to Cart</button>
-    </a>
-    <hr>
-
+    </table>
 </body>
 </html>

@@ -1,7 +1,9 @@
 package com.datapackage.model;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Tea {
     private int id;
@@ -14,6 +16,15 @@ public class Tea {
     private int quantity;
     private String imageUrl;
     private Timestamp createdAt;
+    private String seller;
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
 
     // Getters and Setters
     public int getId() { return id; }
@@ -45,4 +56,7 @@ public class Tea {
 
     public Timestamp getCreatedAt() { return createdAt; }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+    
+
+
 }

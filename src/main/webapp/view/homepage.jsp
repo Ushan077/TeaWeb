@@ -11,7 +11,7 @@
 <%
     String username = (String) session.getAttribute("username");
     if (username == null) {
-        response.sendRedirect("view/login.jsp"); // Redirect to login if session expired
+        response.sendRedirect("login.jsp"); // Redirect to login if session expired
         return;
     }
 %>
@@ -23,7 +23,7 @@
 
     <hr>
     <div style="text-align: center;">
-        <a href="buy_tea.jsp">Buy Tea</a> | 
+        <a href="${pageContext.request.contextPath}/displayTea">Buy Tea</a> | 
         <a href="post_tea.jsp">Post Tea</a> | 
         <a href="about_us.jsp">About Us</a> | 
         <a href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
